@@ -1,5 +1,6 @@
 package kr.easw.lesson3;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class RollTheDice {
@@ -15,6 +16,8 @@ public class RollTheDice {
                 fillArray(RANDOM.nextDouble() * 360);
             }
         }
+        // 출력을 위해 배열 내용을 출력합니다.
+        System.out.println(Arrays.toString(frequency));
     }
 
     /**
@@ -24,11 +27,15 @@ public class RollTheDice {
      * <p>
      * 입력값은 일반적으로는 360을 넘지 않으나, 낮은 확률로 360을 넘습니다.
      * 이러한 경우, extendArray 메서드를 구현하여 이를 이용해 배열을 재선언해야 합니다.
-     *
+     * <p>
      * 또한, 입력값이 double임으로 60으로 나눈 이후 int로 캐스팅이 필요합니다.
      */
     private static void fillArray(double result) {
-        throw new RuntimeException("이 코드 라인을 지우고, 이곳에서 작성하십시오.");
+        int index = (int) (result / 60);
+        if (index >= frequency.length) {
+            frequency = extendArray(index + 1);
+        }
+        frequency[index]++;
     }
 
     /**
@@ -36,6 +43,8 @@ public class RollTheDice {
      * 주어진 값의 크기만큼 배열을 생성한 후, 기존 배열에 있던 데이터를 복사해 반환해야 합니다.
      */
     private static int[] extendArray(int next) {
-        throw new RuntimeException("이 코드 라인을 지우고, 이곳에서 작성하십시오.");
+        int[] newArray = new int[next];
+        System.arraycopy(frequency, 0, newArray, 0, frequency.length);
+        return newArray;
     }
 }
