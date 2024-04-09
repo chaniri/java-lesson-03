@@ -1,7 +1,5 @@
 package kr.easw.lesson3;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -49,7 +47,45 @@ public class SnakeGameWithoutTails {
      * 만약 사용자의 입력이 종료(0)였다면, false값을 반환하여 게임을 종료해야 합니다.
      */
     private static boolean nextDirection(String keyword) {
-        throw new RuntimeException("이 코드 라인을 지우고, 이곳에서 작성하십시오.");
+        switch (keyword) {
+            case "r":
+                location = location.adjust(0, 1);
+                break;
+            case "l":
+                location = location.adjust(0, -1);
+                break;
+            case "u":
+                location = location.adjust(-1, 0);
+                break;
+            case "d":
+                location = location.adjust(1, 0);
+                break;
+            case "0":
+                return false; // 게임 종료
+            default:
+                System.out.println("올바른 입력이 아닙니다. 다시 입력하세요.");
+                return true; // 잘못된 입력 처리 후 다시 입력 받음
+        }
+
+        // 좌표 범위를 벗어나는 경우 처리
+        if (location.getX() < 0) {
+            location = location.adjust(1, 0);
+        } else if (location.getX() >= BOARD_SIZE) {
+            location = location.adjust(-1, 0);
+        }
+        if (location.getY() < 0) {
+            location = location.adjust(0, 1);
+        } else if (location.getY() >= BOARD_SIZE) {
+            location = location.adjust(0, -1);
+        }
+
+        // 아이템이 있는지 확인하고 점수를 올리고 아이템을 없애는 처리
+        if (board[location.getX()][location.getY()] == 2) {
+            score++;
+            board[location.getX()][location.getY()] = 0;
+        }
+
+        return true; // 게임 진행
     }
 
     private static void printBoard() {
